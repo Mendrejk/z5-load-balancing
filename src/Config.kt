@@ -1,0 +1,8 @@
+const val MINIMAL_PROCESS_LOAD: Int = 2
+const val MAXIMAL_PROCESS_LOAD: Int = 15
+const val MINIMAL_PROCESS_LENGTH: Int = 5
+const val MAXIMAL_PROCESS_LENGTH: Int = 50
+const val MINIMAL_PROCESS_FREQUENCY: Int = 5 // %
+const val MAXIMAL_PROCESS_FREQUENCY: Int = 15 // %
+const val PROCESSOR_COUNT: Int = 10
+const val GENERATION_TIME: Int = 10000
