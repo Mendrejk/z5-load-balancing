@@ -1,3 +1,3 @@
-class Process(private val appearanceTime: Int, private val expirationTime: Int, private val processorLoad: Int) {
+class Process(val appearanceTime: Int, val expirationTime: Int, val processorLoad: Int) {
     fun isExpired(clockTime: Int) = expirationTime <= clockTime
 }
