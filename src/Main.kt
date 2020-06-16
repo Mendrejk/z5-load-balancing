@@ -7,6 +7,7 @@ fun main() {
 
     val belowThresholdBalancingResults: Pair<List<Double>, Triple<Int, Int, Int>> = belowThresholdBalancing(processors, maxClock)
     val lowerLoadBalancingResults: Pair<List<Double>, Triple<Int, Int, Int>> = lowerLoadBalancing(processors, maxClock)
+    val loadTransferBalancingResults: Pair<List<Double>, Triple<Int, Int, Int>> = loadTransferBalancing(processors, maxClock)
 
     println("process count: ${processors.sumBy { it.processList.size }}")
     println("below threshold balancing:" +
@@ -25,6 +26,13 @@ fun main() {
             "\nprocess migrations: ${lowerLoadBalancingResults.second.second}" +
             "\nprocess deletions: ${belowThresholdBalancingResults.second.third}" +
             "\n----------------------------")
+    println("load transfer balancing:" +
+            "\naverage loads: ${loadTransferBalancingResults.first}" +
+            "\naverage load: ${loadTransferBalancingResults.first.average()}" +
+            "\nstandard load deviation: ${standardDeviation(loadTransferBalancingResults.first)}" +
+            "\nthreshold queries: ${loadTransferBalancingResults.second.first}" +
+            "\nprocess migrations: ${loadTransferBalancingResults.second.second}" +
+            "\nprocess deletions: ${loadTransferBalancingResults.second.third}")
 }
 
 fun standardDeviation(data: List<Double>): Double {

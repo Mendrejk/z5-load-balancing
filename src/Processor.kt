@@ -59,6 +59,26 @@ class Processor(processFrequency: Int, generationTicks: Int) {
         load = 0
         loadSum = 0
     }
+
+    fun dropHalfProcesses(): List<Process> {
+        val dropped: MutableList<Process> = mutableListOf()
+        if (currentProcesses.size > 1) {
+            var toDrop: Int = currentProcesses.size / 2
+            while (toDrop > 0) {
+                // removes last as it will on average stay processed longest
+                dropped.add(currentProcesses.removeAt(currentProcesses.lastIndex))
+                load -= dropped.last().processorLoad
+                toDrop--
+            }
+        }
+        return dropped
+    }
+
+    fun addProcesses(toAdd: List<Process>): Unit {
+        for(process: Process in toAdd) {
+            addProcess(process)
+        }
+    }
 }
 
 fun generateProcessors(howMany: Int, generationTime: Int): List<Processor> = List(howMany) {
