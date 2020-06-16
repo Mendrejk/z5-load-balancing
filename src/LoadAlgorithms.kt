@@ -81,10 +81,12 @@ fun loadTransferBalancing(processors: List<Processor>, maxClock: Int): Pair<List
             // load transfer logic
             if (it.load <= LOAD_TRANSFER_BALANCING_TRANSFEREE_THRESHOLD) {
                 thresholdQueries++
-                // check for transferring only once
+                var transferTriesLeft: Int = LOAD_TRANSFER_BALANCING_TRANSFER_TRIES
                 var transferring: Processor = processors.random()
-                while(transferring == it) {
+                while(transferring == it || (transferring.load < LOAD_TRANSFER_BALANCING_TRANSFERRING_THRESHOLD && transferTriesLeft > 0)) {
+                    if (transferring.load < LOAD_TRANSFER_BALANCING_TRANSFERRING_THRESHOLD) transferTriesLeft--
                     transferring = processors.random()
+                    thresholdQueries++
                 }
                 if (transferring.load >= LOAD_TRANSFER_BALANCING_TRANSFERRING_THRESHOLD) {
                     thresholdQueries++
@@ -101,9 +103,7 @@ fun loadTransferBalancing(processors: List<Processor>, maxClock: Int): Pair<List
                     chosenProcessor = processors.random()
                     thresholdQueries++
                     while (chosenProcessor == it || (chosenProcessor.load > BELOW_THRESHOLD_BALANCING_THRESHOLD && triesLeft > 0)) {
-                        if (chosenProcessor.load > BELOW_THRESHOLD_BALANCING_THRESHOLD) {
-                            triesLeft--
-                        }
+                        if (chosenProcessor.load > BELOW_THRESHOLD_BALANCING_THRESHOLD) triesLeft--
                         chosenProcessor = processors.random()
                         thresholdQueries++
                     }
